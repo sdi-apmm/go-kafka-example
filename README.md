@@ -11,18 +11,18 @@ This service consumes GitHub deployment events from a Kafka topic, identifies su
 The service follows a pipeline architecture:
 
 ```
-┌─────────────┐    ┌──────────────────────────────────────┐    ┌─────────────┐
-│             │    │                                      │    │             │
-│  Kafka      │    │  Kafka Event Processor               │    │  Kafka      │
-│  (Input)    │───▶│                                      │───▶│  (Output)   │
-│  Topic      │    │  ┌──────────┐     ┌─────────────┐   │    │  Topic      │
-│             │    │  │Consumer  │────▶│Middleware   │   │    │             │
-└─────────────┘    │  └──────────┘     └─────┬───────┘   │    └─────────────┘
-                    │                         │           │
-                    │                         ▼           │
-                    │                    ┌────────────┐   │    ┌─────────────┐
-                    │                    │Producer    │   │    │  HTTP       │
-                    │                    └────────────┘   │◀───│  Monitoring │
+┌─────────────┐     ┌──────────────────────────────────────┐    ┌─────────────┐
+│             │     │                                      │    │             │
+│  Kafka      │     │  Kafka Event Processor               │    │  Kafka      │
+│  (Input)    │───> │                                      │───>│  (Output)   │
+│  Topic      │     │  ┌──────────┐     ┌─────────────┐    │    │  Topic      │
+│             │     │  │Consumer  │────>│Middleware   │    │    │             │
+└─────────────┘     │  └──────────┘     └─────┬───────┘    │    └─────────────┘
+                    │                         │            │
+                    │                         ▼            │
+                    │                    ┌────────────┐    │    ┌─────────────┐
+                    │                    │Producer    │    │    │  HTTP       │
+                    │                    └────────────┘    │<───│  Monitoring │
                     │                                      │    │  API        │
                     └──────────────────────────────────────┘    └─────────────┘
 ```
